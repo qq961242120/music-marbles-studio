@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0a0e13">
+  <link rel="icon" href="data:,">
+  <title>音乐弹珠 · 一首歌，一条会呼吸的轨道</title>
+</head>
+<body>
+  <main class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="./" aria-label="音乐弹珠首页">
+        <span class="brand-mark" aria-hidden="true"><span></span></span>
+        <span><strong>音乐弹珠</strong><small>MUSIC MARBLES</small></span>
+      </a>
+      <div class="output-badge"><span></span><output id="output-spec"></output></div>
+    </header>
+
+    <section class="workspace" aria-label="音乐弹珠生成器">
+      <div class="preview-column">
+        <div class="section-heading">
+          <div>
+            <p class="overline">实时场景</p>
+            <h1>一首歌，一条会呼吸的轨道。</h1>
+          </div>
+          <p>拖入音频，其余交给弹珠。</p>
+        </div>
+        <div class="phone-stage">
+          <div class="stage-glow" aria-hidden="true"></div>
+          <div class="viewport">
+            <canvas id="scene" aria-label="音乐弹珠三维场景预览"></canvas>
+            <video id="result-video" hidden controls playsinline preload="metadata" aria-label="生成的音乐弹珠视频"></video>
+          </div>
+          <div id="playback-controls" class="playback-controls">
+            <button id="play-button" class="icon-button" type="button" aria-label="暂停预览"><i data-lucide="pause"></i></button>
+            <input id="time-slider" type="range" min="0" max="1000" value="0" aria-label="预览时间">
+            <span>跟拍预览</span>
+          </div>
+        </div>
+      </div>
+
+      <aside class="control-column">
+        <div id="dropzone" class="dropzone" role="button" tabindex="0" aria-label="拖入或选择一首歌曲">
+          <div class="drop-icon"><i data-lucide="upload"></i></div>
+          <h2>把一首歌放进来</h2>
+          <p>MP3、M4A 或 WAV，最长以整曲为准</p>
+          <button id="choose-file" class="primary-button" type="button"><i data-lucide="file-audio"></i>选择歌曲</button>
+          <small>不上传云端，不修改原始音频</small>
+        </div>
+        <input id="file-picker" type="file" accept=".mp3,.m4a,.wav,audio/mpeg,audio/mp4,audio/wav" hidden>
+
+        <section id="job-panel" class="job-panel" hidden aria-live="polite">
+          <div class="job-heading">
+            <div><p class="overline">当前歌曲</p><h2 id="song-name">—</h2></div>
+            <button id="new-song" class="text-button" type="button"><i data-lucide="refresh-cw"></i>换一首</button>
+          </div>
+          <p id="analysis-note" class="analysis-note">等待音频分析</p>
+          <div class="progress-label"><span id="status-title">准备中</span><strong id="progress-value">0%</strong></div>
+          <div class="progress-track"><span id="progress-fill"></span></div>
+          <p id="status-detail" class="status-detail"></p>
+          <ol class="steps">
+            <li data-step="analyze" data-state="waiting"><span class="step-icon"><i data-lucide="activity"></i></span><span><strong>听懂音乐</strong><small>起音、重音、乐句与停顿</small></span></li>
+            <li data-step="layout" data-state="waiting"><span class="step-icon"><i data-lucide="route"></i></span><span><strong>反推世界</strong><small>碰撞、跳跃、弯轨与镜头</small></span></li>
+            <li data-step="render" data-state="waiting"><span class="step-icon"><i data-lucide="captions"></i></span><span><strong>合成整片</strong><small>逐帧渲染并保留原曲</small></span></li>
+          </ol>
+          <a id="download-link" class="download-button" hidden><i data-lucide="download"></i>下载 MP4</a>
+        </section>
+
+        <div id="error-box" class="error-box" role="alert" hidden></div>
+
+        <section class="track-readout" aria-label="当前场景数据">
+          <div class="readout-heading"><h2>轨道读数</h2><span id="stat-duration">18.00 秒</span></div>
+          <dl>
+            <div><dt>清晰落点</dt><dd id="stat-notes">34</dd></div>
+            <div><dt>估计速度</dt><dd><span id="stat-bpm">112</span><small> BPM</small></dd></div>
+            <div><dt>弯轨 / 尾轨</dt><dd id="stat-rails">—</dd></div>
+          </dl>
+          <div class="lyric-line"><i data-lucide="music-2"></i><span id="lyric-source">拖入歌曲后自动匹配</span></div>
+        </section>
+
+        <p id="welcome" class="privacy-note">只需要一个音频文件。无需 MIDI、歌词打点、摆琴片或录屏。</p>
+      </aside>
+    </section>
+    <footer><span>原声音频是唯一时钟</span><span>透明材质 · 彩色琴片 · 双轨弯道 · 空间歌词</span></footer>
+  </main>
+  <script type="module" src="./src/scene.js"></script>
+</body>
+</html>
